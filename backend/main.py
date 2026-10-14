@@ -7,6 +7,12 @@ from storage import save_record, get_history
 from datetime import datetime, timezone
 from storage import init_db
 import uuid
+import os
+from dotenv import load_dotenv
+
+load_dotenv()                        # ← 读同目录下的 .env
+
+ALLOWED_ORIGINS = os.getenv("ALLOWED_ORIGINS").split(",")
 
 init_db()  # ← 初始化数据库（如果不存在就创建）
 
@@ -14,7 +20,7 @@ app = FastAPI()
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://localhost:3000"],
+    allow_origins=ALLOWED_ORIGINS,
     allow_methods=["GET", "POST"],
     allow_headers=["*"],
     allow_credentials=True,
